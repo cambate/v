@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>cambate</title>
+  <style>
+    :root{
+      --bg: #2b2b2b; /* dark gray */
+      --text: #ffffff;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      box-sizing:border-box;
+    }
+
+    .page{
+      width:100%;
+      max-width:1100px;
+    }
+
+    /* Title */
+    h1{
+      margin:0 0 14px 0;
+      font-size:28px;
+      font-weight:600;
+      text-align:left;
+    }
+
+    /* Video card */
+    .video-card{
+      position:relative;
+      background:none;
+      border-radius:0;
+      padding:0;
+      box-shadow:none;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    /* Video wrapper sized to 1280x720 (720p) but responsive on smaller screens */
+    .video-wrap{
+      width:100%;
+      max-width:1280px;
+      aspect-ratio:16/9;
+      background:#000;
+      overflow:hidden;
+      display:block;
+      position:relative;
+    }
+
+    .video-wrap iframe,
+    .video-wrap video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    @media (max-width:720px){
+      h1{font-size:22px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Beachsome lesbians</h1>
+
+    <div class="video-card">
+      <div id="videoWrap" class="video-wrap" aria-label="Video player">
+        <!-- iframe or video element will be injected here by JS -->
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ---------- CONFIG: edit these values to change the video ----------
+  const videoConfig = {
+    videoUrl: 'https://bunkr.cr/e/wjP9DjKw7Ksvv',
+    embedType: 'iframe'
+  };
+  const adLink = 'https://www.revenuecpmgate.com/k04wr7mfz7?key=efa21cf14b078963e6c2ec2814739d92'; // link to open when play starts
+  // ------------------------------------------------------------------
+
+  const wrap = document.getElementById('videoWrap');
+
+  if(videoConfig.embedType === 'html5'){
+    const vid = document.createElement('video');
+    vid.setAttribute('controls','');
+    vid.setAttribute('playsinline','');
+    vid.src = videoConfig.videoUrl;
+    vid.addEventListener('play', ()=>{
+      window.open(adLink,'_blank');
+    }, { once:true });
+    wrap.appendChild(vid);
+  } else {
+    const iframe = document.createElement('iframe');
+    iframe.src = videoConfig.videoUrl;
+    iframe.setAttribute('allowfullscreen','');
+    iframe.setAttribute('loading','lazy');
+    iframe.setAttribute('referrerpolicy','no-referrer');
+    wrap.appendChild(iframe);
+
+    // Transparent overlay to detect first click and open ad link
+    const overlay = document.createElement('div');
+    overlay.style.position = 'absolute';
+    overlay.style.inset = '0';
+    overlay.style.cursor = 'pointer';
+    overlay.style.background = 'rgba(0,0,0,0)';
+    overlay.addEventListener('click', ()=>{
+      window.open(adLink,'_blank');
+      overlay.remove(); // allow clicks to go through to video
+    }, { once:true });
+    wrap.appendChild(overlay);
+  }
+</script>
+</body>
+</html>
